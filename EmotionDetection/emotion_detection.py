@@ -21,6 +21,18 @@ def emotion_detector(text_to_analyse):
     # Sending a POST request to the emotion detection API
     try:
         response = requests.post(url, json=myobj, headers=header, timeout=10)
+
+        # Check for status code 400 (blank/invalid input)
+        if response.status_code == 400:
+            return {
+                'anger': None,
+                'disgust': None,
+                'fear': None,
+                'joy': None,
+                'sadness': None,
+                'dominant_emotion': None
+            }
+
         response.raise_for_status()
     except requests.exceptions.RequestException as e:
         print(f"Error making request: {e}")

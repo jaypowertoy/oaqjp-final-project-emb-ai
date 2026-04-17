@@ -29,9 +29,13 @@ def emotion_detector_route():
     # Call the emotion detector function
     result = emotion_detector(text_to_analyze)
 
-    # Handle error case
+    # Handle error case (None returned)
     if result is None:
         return "Error processing the request. Please try again."
+
+    # Handle blank input case (status_code 400)
+    if result['dominant_emotion'] is None:
+        return "Invalid text! Please try again!"
 
     # Format the response as specified
     response_text = (
